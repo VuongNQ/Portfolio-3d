@@ -1,0 +1,172 @@
+{
+  "person": {
+    "name": "Nguyen Quoc Vuong",
+    "headline": "Senior Front-end Engineer",
+    "intro": "Nearly 9 years building web products, with a focus on front-end architecture and web performance. In 2026 I started learning 3D web and building my own products with AI agents.",
+    "links": [
+      { "label": "GitHub", "href": "https://github.com/VuongNQ" }
+    ]
+  },
+  "stations": [
+    {
+      "id": "opus-solution",
+      "kind": "career",
+      "visual": "org-tree",
+      "from": "2017",
+      "to": "2019-05",
+      "title": "Opus Solution",
+      "role": "Front-end Engineer",
+      "summary": "Enterprise digital transformation products on Microsoft 365 and SharePoint.",
+      "highlights": [
+        "Tasken: task and performance management SPA with a hierarchical organization tree",
+        "Document management dashboards for enterprise clients",
+        "Responsive report tables with PDF and Excel export for oil and gas production data"
+      ],
+      "tech": ["AngularJS", "jQuery", "SharePoint REST API", ".NET"],
+      "ai": { "level": "none" },
+      "links": []
+    },
+    {
+      "id": "queenb",
+      "kind": "career",
+      "visual": "stream",
+      "from": "2019-06",
+      "to": "2022-03",
+      "title": "QueenB JSC",
+      "role": "Front-end Engineer",
+      "summary": "Webinar marketing platforms and website builders.",
+      "highlights": [
+        "Webinaris: cross-platform HLS and MPEG-DASH playback for the German market",
+        "Bonevo: drag-and-drop page settings and image editing",
+        "Tuoi Tre Tim Viec: high-traffic job board pages and posting workflow"
+      ],
+      "tech": ["Vue.js", "Knockout.js", "jQuery", "hls.js", "dash.js"],
+      "ai": { "level": "none" },
+      "links": []
+    },
+    {
+      "id": "firegroup",
+      "kind": "career",
+      "visual": "gauge",
+      "from": "2022-06",
+      "to": "2026-04",
+      "title": "Firegroup",
+      "role": "Senior Front-end Engineer",
+      "summary": "Front-end architecture for global e-commerce SaaS apps on Shopify.",
+      "highlights": [
+        "Swift App: merchant sites above 80 PageSpeed points, passing LCP, INP and CLS",
+        "OneMobile: micro front-end admin so 2 Scrum teams ship independently",
+        "OneLoyalty: Shadow DOM isolation cut theme style conflicts by over 90%"
+      ],
+      "tech": ["React", "TypeScript", "Shopify Liquid", "GraphQL", "Module Federation", "Turborepo", "Web Components"],
+      "ai": { "level": "none" },
+      "links": []
+    },
+    {
+      "id": "save-game-sync",
+      "kind": "project",
+      "visual": "handheld",
+      "from": "2026-03",
+      "to": null,
+      "title": "Save Game Sync",
+      "role": "Solo: idea, architecture, CI/CD and releases",
+      "summary": "Windows tray app that syncs game saves to Google Drive across handhelds and laptops.",
+      "highlights": [
+        "Watches game processes, tracks play time and syncs saves on exit",
+        "Three-way reconciliation with SHA-256 identity and crash-safe local journal",
+        "Self-updating releases from GitHub Actions"
+      ],
+      "tech": ["Tauri 2", "Rust", "React 19", "TypeScript", "TanStack Query", "Google Drive API", "Firestore"],
+      "ai": {
+        "level": "cowrite",
+        "split": {
+          "me": "Product idea, architecture, agent instructions, reviewing and merging every change",
+          "ai": "Most of the Rust code, generated with GitHub Copilot, Codex and Claude Code",
+          "evidence": "274 commits, 31 merged pull requests, tagged releases"
+        }
+      },
+      "links": [
+        { "label": "Source", "href": "https://github.com/VuongNQ/App-tauri_sync-save-game" }
+      ]
+    },
+    {
+      "id": "road-to-english-c1",
+      "kind": "project",
+      "visual": "stairs",
+      "from": "2026-11",
+      "to": null,
+      "title": "Road to English C1",
+      "role": "Solo: product, architecture, review",
+      "summary": "Offline-first PWA for learning English from B1 to C1 with real work scenarios.",
+      "highlights": [
+        "91 grammar lessons, diagnostics and spaced review of wrong answers",
+        "Reading to writing and listening to speaking practice with on-device recordings",
+        "Guest mode plus Google sign-in with cross-device progress sync"
+      ],
+      "tech": ["React 19", "TypeScript", "PWA", "IndexedDB", "MediaRecorder", "Supabase", "Cloudflare Pages"],
+      "ai": {
+        "level": "cowrite",
+        "split": {
+          "me": "Learning goals, curriculum structure, architecture, agent rules, review",
+          "ai": "Feature implementation through Codex and Claude Code pull requests",
+          "evidence": "18 merged pull requests with CI on every change"
+        }
+      },
+      "links": [
+        { "label": "Live app", "href": "https://road-to-english-c1.pages.dev/" }
+      ]
+    },
+    {
+      "id": "webgl-threejs-lab",
+      "kind": "project",
+      "visual": "triangle",
+      "from": "2026-11",
+      "to": null,
+      "title": "WebGL / Three.js Lab",
+      "role": "Learner and curriculum designer",
+      "summary": "A 17-lesson path from a raw WebGL 2 triangle to a production Three.js scene. This page uses what it taught.",
+      "highlights": [
+        "Lessons 01 to 03 in raw WebGL 2 and GLSL, 04 to 17 in Three.js",
+        "Theory PWA with runnable demos and synced progress",
+        "This portfolio reuses lessons 06, 08, 16 and 17: camera control, GPU lifecycle, frame-time budget, quality tiers"
+      ],
+      "tech": ["WebGL 2", "GLSL", "Three.js", "React 19", "Vite", "Firebase"],
+      "ai": {
+        "level": "cowrite",
+        "split": {
+          "me": "Learning roadmap, doing each lesson, deciding what goes into the app",
+          "ai": "Drafting lesson text and porting demos through Codex and Claude Code",
+          "evidence": "17 lesson branches, each with its own CI build"
+        }
+      },
+      "links": [
+        { "label": "Theory app", "href": "https://webgl-threejs-lab.pages.dev" }
+      ]
+    },
+    {
+      "id": "admin-work",
+      "kind": "project",
+      "visual": "org-tree",
+      "from": "2026-11",
+      "to": null,
+      "title": "Department Work Manager",
+      "role": "Solo: gathering real requirements, direction, review",
+      "summary": "Assign, report and review work across a department hierarchy. Same problem as Tasken in 2017, solved again with today's tools.",
+      "highlights": [
+        "Role-based access enforced in Postgres with row-level security",
+        "Reports, reviews and approval as separate, auditable steps",
+        "Permission tests run against real Postgres in WebAssembly (PGlite), no Docker needed"
+      ],
+      "tech": ["React 19", "Supabase", "PostgreSQL RLS", "Edge Functions", "ECharts", "Vitest", "PGlite"],
+      "ai": {
+        "level": "cowrite",
+        "split": {
+          "me": "Collecting the real department documents and rules, steering, reviewing",
+          "ai": "Codex planned and implemented the app from those documents",
+          "evidence": "17 merged pull requests, RLS test suite in CI"
+        }
+      },
+      "links": []
+    }
+  ]
+}
