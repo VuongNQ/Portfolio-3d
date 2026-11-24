@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title><!--slot:name--> · <!--slot:headline--></title>
+    <meta name="description" content="<!--slot:intro-->" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#timeline">Skip to timeline</a>
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <main>
+      <header class="hero">
+        <p class="hero__eyebrow"><!--slot:headline--></p>
+        <h1><!--slot:name--></h1>
+        <p class="hero__intro"><!--slot:intro--></p>
+        <p class="hero__links"><!--slot:person-links--></p>
+        <nav aria-label="Timeline">
+          <!--slot:toc-->
+        </nav>
+        <p class="hero__hint" aria-hidden="true">Scroll to travel through the timeline</p>
+      </header>
+
+      <div id="timeline" class="timeline">
+        <!--slot:stations-->
+      </div>
+
+      <footer class="footer">
+        <h2>About this page</h2>
+        <p>
+          The 3D scene is plain Three.js, loaded after the content. It follows techniques from my WebGL lab:
+          a camera on a spline, a frame-time budget that drops to a lighter quality tier, and full GPU cleanup.
+          With reduced motion, no WebGL, or JavaScript turned off, you still get every word above.
+        </p>
+        <p>
+          <span class="ai-badge ai-badge--cowrite">Co-written with AI</span>
+          This site's first version was scaffolded with Claude Code; I set the concept, content and review.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
