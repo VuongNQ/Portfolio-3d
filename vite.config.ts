@@ -30,6 +30,9 @@ function timelineHtml(): Plugin {
 }
 
 export default defineConfig({
+  // Relative URLs: the same build works at a domain root, under GitHub Pages' /Portfolio-3d/
+  // subpath and after a repo rename. Dynamic imports resolve from import.meta.url.
+  base: './',
   plugins: [timelineHtml()],
   build: {
     target: 'es2022',

@@ -50,4 +50,6 @@ Ghi số đo thật vào [docs/benchmark.md](docs/benchmark.md).
 
 ## Triển khai
 
-Cloudflare Pages (Git integration): build command `npm run build`, output `dist`, Node.js 24, production branch `main`.
+GitHub Pages qua GitHub Actions ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)): mỗi lần push lên `main`, workflow chạy `npm run check` rồi deploy `dist/`. Bật một lần trong **Settings → Pages → Build and deployment → Source: GitHub Actions**. Địa chỉ: <https://vuongnq.github.io/Portfolio-3d/>.
+
+Vite dùng `base: './'` (URL tương đối), nên cùng một bản build chạy được ở subpath `/Portfolio-3d/`, ở domain riêng, hay trên Cloudflare Pages.
