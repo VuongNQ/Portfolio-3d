@@ -1,34 +1,106 @@
 name: CI
 
+# One workflow for checks and deploys: Pages only deploys a build that passed type check,
+# tests and the bundle budget. The `check` job always runs and reports, so it can be a
+# required status check even on PRs that only touch docs.
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  # Supersede stale PR runs; never cancel a main run that may be deploying.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      code: ${{ steps.changes.outputs.code }}
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v7
+        with:
+          fetch-depth: 0
+
+      - name: Detect code changes
+        id: changes
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.sha }}
+        run: |
+          # Docs-only changes (Markdown anywhere, docs/) skip build and deploy.
+          if [ "$EVENT" = workflow_dispatch ] || [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            code=true
+          elif git diff --name-only "$BASE" "$HEAD" | grep -qvE '(\.md$|^docs/)'; then
+            code=true
+          else
+            code=false
+          fi
+          echo "code=$code" | tee -a "$GITHUB_OUTPUT"
+
+      - if: steps.changes.outputs.code == 'true'
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
+
+      - if: steps.changes.outputs.code == 'true'
+        run: npm ci
+
       - name: Type check and build
+        if: steps.changes.outputs.code == 'true'
         run: npm run build
+
       - name: Unit tests
+        if: steps.changes.outputs.code == 'true'
         run: npm test
+
       - name: Bundle budget
+        if: steps.changes.outputs.code == 'true'
+        env:
+          # gzip -9 bytes. Current: ~4.4 kB entry, ~134 kB total (three is ~126 kB, lazy).
+          ENTRY_MAX: 10240
+          TOTAL_MAX: 163840
         run: |
-          total=$(du -cb dist/assets/*.js | tail -1 | cut -f1)
-          gz=$(cat dist/assets/*.js | gzip -9 | wc -c)
-          echo "JS: $total bytes raw, $gz bytes gzip"
-          test "$gz" -le 1572864
+          entry=$(grep -oE 'src="\./assets/[^"]+\.js"' dist/index.html | sed -E 's/^src="\.\/(.*)"$/dist\/\1/')
+          entry_gz=$(cat $entry | gzip -9 | wc -c)
+          total_gz=$(cat dist/assets/*.js | gzip -9 | wc -c)
+          echo "Entry JS: $entry_gz / $ENTRY_MAX bytes gzip ($entry)"
+          echo "All JS:   $total_gz / $TOTAL_MAX bytes gzip"
+          {
+            echo "| Bundle | gzip | Budget |"
+            echo "| --- | ---: | ---: |"
+            echo "| Entry JS | $entry_gz | $ENTRY_MAX |"
+            echo "| All JS | $total_gz | $TOTAL_MAX |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          test "$entry_gz" -le "$ENTRY_MAX" && test "$total_gz" -le "$TOTAL_MAX"
+
+      - if: steps.changes.outputs.code == 'true' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: check
+    if: needs.check.outputs.code == 'true' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
