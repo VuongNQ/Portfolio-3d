@@ -50,6 +50,6 @@ Ghi số đo thật vào [docs/benchmark.md](docs/benchmark.md).
 
 ## Triển khai
 
-GitHub Pages qua GitHub Actions ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)): mỗi lần push lên `main`, workflow chạy `npm run check` rồi deploy `dist/`. Bật một lần trong **Settings → Pages → Build and deployment → Source: GitHub Actions**. Địa chỉ: <https://vuongnq.github.io/Portfolio-3d/>.
+GitHub Pages qua GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): mỗi lần push lên `main`, job `check` chạy type check, build, test và kiểm tra ngân sách bundle; chỉ khi pass thì job `deploy` mới đưa `dist/` lên Pages. Commit chỉ sửa `*.md` hoặc `docs/` không build lại. Bật một lần trong **Settings → Pages → Build and deployment → Source: GitHub Actions**. Địa chỉ: <https://vuongnq.github.io/Portfolio-3d/>.
 
 Vite dùng `base: './'` (URL tương đối), nên cùng một bản build chạy được ở subpath `/Portfolio-3d/`, ở domain riêng, hay trên Cloudflare Pages.
