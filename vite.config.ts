@@ -19,7 +19,8 @@ function timelineHtml(): Plugin {
     transformIndexHtml(html) {
       const data = JSON.parse(readFileSync(timelinePath, 'utf8')) as Timeline;
       const errors = validateTimeline(data);
-      if (errors.length > 0) throw new Error(`content/timeline.json is invalid:\n- ${errors.join('\n- ')}`);
+      if (errors.length > 0)
+        throw new Error(`content/timeline.json is invalid:\n- ${errors.join('\n- ')}`);
       const slots = renderPage(data);
       return html.replace(/<!--slot:([a-z-]+)-->/g, (match, key: string) => {
         if (!(key in slots)) throw new Error(`index.html has unknown slot "${key}"`);

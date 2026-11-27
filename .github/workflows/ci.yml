@@ -1,7 +1,7 @@
 name: CI
 
-# One workflow for checks and deploys: Pages only deploys a build that passed type check,
-# tests and the bundle budget. The `check` job always runs and reports, so it can be a
+# One workflow for checks and deploys: Pages only deploys a build that passed format check,
+# type check, tests and the bundle budget. The `check` job always runs and reports, so it can be a
 # required status check even on PRs that only touch docs.
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD: ${{ github.sha }}
         run: |
-          # Docs-only changes (Markdown anywhere, docs/) skip build and deploy.
+          # Docs-only changes (Markdown anywhere, docs/) skip build and deploy, not the format check.
           if [ "$EVENT" = workflow_dispatch ] || [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
             code=true
           elif git diff --name-only "$BASE" "$HEAD" | grep -qvE '(\.md$|^docs/)'; then
@@ -45,14 +45,15 @@ jobs:
           fi
           echo "code=$code" | tee -a "$GITHUB_OUTPUT"
 
-      - if: steps.changes.outputs.code == 'true'
-        uses: actions/setup-node@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
 
-      - if: steps.changes.outputs.code == 'true'
-        run: npm ci
+      - run: npm ci
+
+      - name: Format check
+        run: npm run format:check
 
       - name: Type check and build
         if: steps.changes.outputs.code == 'true'

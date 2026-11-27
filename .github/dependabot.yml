@@ -6,7 +6,7 @@ updates:
       interval: monthly
     groups:
       actions:
-        patterns: ["*"]
+        patterns: ['*']
 
   - package-ecosystem: npm
     directory: /
@@ -15,8 +15,8 @@ updates:
     groups:
       # three and @types/three are pinned together; bump them as a pair.
       three:
-        patterns: ["three", "@types/three"]
+        patterns: ['three', '@types/three']
       dev-deps:
         dependency-type: development
-        exclude-patterns: ["@types/three"]
+        exclude-patterns: ['@types/three']
         update-types: [minor, patch]

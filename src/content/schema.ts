@@ -70,11 +70,14 @@ export function validateTimeline(data: Timeline): string[] {
     if (s.to !== null && s.to < s.from) errors.push(`${at}: ends before it starts`);
     if (s.from < previousFrom) errors.push(`${at}: stations must be in chronological order`);
     previousFrom = s.from;
-    if (!AI_LEVELS.includes(s.ai.level)) errors.push(`${at}: ai.level must be one of ${AI_LEVELS.join(', ')}`);
-    if (s.ai.level === 'cowrite' && !s.ai.split) errors.push(`${at}: co-written work needs ai.split`);
+    if (!AI_LEVELS.includes(s.ai.level))
+      errors.push(`${at}: ai.level must be one of ${AI_LEVELS.join(', ')}`);
+    if (s.ai.level === 'cowrite' && !s.ai.split)
+      errors.push(`${at}: co-written work needs ai.split`);
     if (s.tech.length === 0) errors.push(`${at}: list at least one technology`);
     for (const link of s.links) {
-      if (!link.href.startsWith('https://')) errors.push(`${at}: link "${link.label}" must use https`);
+      if (!link.href.startsWith('https://'))
+        errors.push(`${at}: link "${link.label}" must use https`);
     }
   });
   return errors;

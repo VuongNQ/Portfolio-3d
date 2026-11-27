@@ -24,7 +24,11 @@ export function startScene(options: SceneOptions): () => void {
   const { signal } = controller;
   let tier = options.tier;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: TIERS[tier].antialias, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: TIERS[tier].antialias,
+    powerPreference: 'high-performance',
+  });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.setClearColor('#0b1020');
 
@@ -43,15 +47,34 @@ export function startScene(options: SceneOptions): () => void {
     scene.add(v.object);
     return v;
   });
-  scene.add(buildRail(positions, stations.map((s) => s.ai.level)));
-  const threads = stations.flatMap((s, i) => stations.slice(i + 1).map((o, k) => [s, o, i, i + 1 + k] as const))
+  scene.add(
+    buildRail(
+      positions,
+      stations.map((s) => s.ai.level),
+    ),
+  );
+  const threads = stations
+    .flatMap((s, i) => stations.slice(i + 1).map((o, k) => [s, o, i, i + 1 + k] as const))
     .filter(([a, b]) => a.visual === 'org-tree' && b.visual === 'org-tree');
-  threads.forEach(([, , i, j]) => scene.add(buildThread(positions[i].clone().add(new THREE.Vector3(0, 1.6, 0)), positions[j].clone().add(new THREE.Vector3(0, 1.6, 0)))));
+  threads.forEach(([, , i, j]) =>
+    scene.add(
+      buildThread(
+        positions[i].clone().add(new THREE.Vector3(0, 1.6, 0)),
+        positions[j].clone().add(new THREE.Vector3(0, 1.6, 0)),
+      ),
+    ),
+  );
 
   const wide = window.matchMedia('(min-width: 900px)');
   const framing = () => (wide.matches ? cameraPath(positions, 2.2) : cameraPath(positions, 0, 1.6));
   let path = framing();
-  wide.addEventListener('change', () => { path = framing(); }, { signal });
+  wide.addEventListener(
+    'change',
+    () => {
+      path = framing();
+    },
+    { signal },
+  );
 
   const resize = () => {
     const { clientWidth: w, clientHeight: h } = canvas;
@@ -103,14 +126,24 @@ export function startScene(options: SceneOptions): () => void {
     }
   };
 
-  const start = () => { last = performance.now(); budget.reset(); frame = requestAnimationFrame(render); };
+  const start = () => {
+    last = performance.now();
+    budget.reset();
+    frame = requestAnimationFrame(render);
+  };
   const stop = () => cancelAnimationFrame(frame);
-  document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()), { signal });
-  canvas.addEventListener('webglcontextlost', (event) => {
-    event.preventDefault();
-    stop();
-    onFail();
-  }, { signal });
+  document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()), {
+    signal,
+  });
+  canvas.addEventListener(
+    'webglcontextlost',
+    (event) => {
+      event.preventDefault();
+      stop();
+      onFail();
+    },
+    { signal },
+  );
   start();
 
   return () => {
