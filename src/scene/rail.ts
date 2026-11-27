@@ -14,7 +14,10 @@ const DROP_Y = 1.2;
 const SWAY_X = 2.6;
 
 export function stationPositions(count: number): THREE.Vector3[] {
-  return Array.from({ length: count }, (_, i) => new THREE.Vector3(i % 2 === 0 ? -SWAY_X : SWAY_X, -i * DROP_Y, -i * SPACING_Z));
+  return Array.from(
+    { length: count },
+    (_, i) => new THREE.Vector3(i % 2 === 0 ? -SWAY_X : SWAY_X, -i * DROP_Y, -i * SPACING_Z),
+  );
 }
 
 export interface CameraPath {
@@ -30,7 +33,12 @@ export interface CameraPath {
 export function cameraPath(stations: readonly THREE.Vector3[], side: number, lift = 0): CameraPath {
   const shift = new THREE.Vector3(-side, -lift, 0);
   const target = stations.map((p) => p.clone().add(shift));
-  const position = stations.map((p) => p.clone().add(shift).add(new THREE.Vector3(0, 1.3, 8)));
+  const position = stations.map((p) =>
+    p
+      .clone()
+      .add(shift)
+      .add(new THREE.Vector3(0, 1.3, 8)),
+  );
   return {
     position: new THREE.CatmullRomCurve3(position, false, 'centripetal'),
     target: new THREE.CatmullRomCurve3(target, false, 'centripetal'),
@@ -41,7 +49,10 @@ export function cameraPath(stations: readonly THREE.Vector3[], side: number, lif
  * Rail tube under the stations. Segments around stations whose work was co-written with AI are
  * tinted, so the moment AI joined the workflow is visible at a glance.
  */
-export function buildRail(stations: readonly THREE.Vector3[], levels: readonly AiLevel[]): THREE.Group {
+export function buildRail(
+  stations: readonly THREE.Vector3[],
+  levels: readonly AiLevel[],
+): THREE.Group {
   const group = new THREE.Group();
   const railPoints = stations.map((p) => p.clone().add(new THREE.Vector3(0, -2.1, 0)));
   const curve = new THREE.CatmullRomCurve3(railPoints, false, 'centripetal');
@@ -72,12 +83,21 @@ export function buildRail(stations: readonly THREE.Vector3[], levels: readonly A
 
 /** A dashed arc between two stations that tell the same story (Tasken 2017 → work manager 2026). */
 export function buildThread(from: THREE.Vector3, to: THREE.Vector3): THREE.Line {
-  const mid = from.clone().lerp(to, 0.5).add(new THREE.Vector3(0, 6, 0));
+  const mid = from
+    .clone()
+    .lerp(to, 0.5)
+    .add(new THREE.Vector3(0, 6, 0));
   const curve = new THREE.QuadraticBezierCurve3(from, mid, to);
   const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(96));
   const line = new THREE.Line(
     geometry,
-    new THREE.LineDashedMaterial({ color: COLORS.accent, dashSize: 0.4, gapSize: 0.3, transparent: true, opacity: 0.5 }),
+    new THREE.LineDashedMaterial({
+      color: COLORS.accent,
+      dashSize: 0.4,
+      gapSize: 0.3,
+      transparent: true,
+      opacity: 0.5,
+    }),
   );
   line.computeLineDistances();
   return line;

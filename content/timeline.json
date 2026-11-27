@@ -3,9 +3,7 @@
     "name": "Nguyen Quoc Vuong",
     "headline": "Senior Front-end Engineer",
     "intro": "Nearly 9 years building web products, with a focus on front-end architecture and web performance. In 2026 I started learning 3D web and building my own products with AI agents.",
-    "links": [
-      { "label": "GitHub", "href": "https://github.com/VuongNQ" }
-    ]
+    "links": [{ "label": "GitHub", "href": "https://github.com/VuongNQ" }]
   },
   "stations": [
     {
@@ -58,7 +56,15 @@
         "OneMobile: micro front-end admin so 2 Scrum teams ship independently",
         "OneLoyalty: Shadow DOM isolation cut theme style conflicts by over 90%"
       ],
-      "tech": ["React", "TypeScript", "Shopify Liquid", "GraphQL", "Module Federation", "Turborepo", "Web Components"],
+      "tech": [
+        "React",
+        "TypeScript",
+        "Shopify Liquid",
+        "GraphQL",
+        "Module Federation",
+        "Turborepo",
+        "Web Components"
+      ],
       "ai": { "level": "none" },
       "links": []
     },
@@ -76,7 +82,15 @@
         "Three-way reconciliation with SHA-256 identity and crash-safe local journal",
         "Self-updating releases from GitHub Actions"
       ],
-      "tech": ["Tauri 2", "Rust", "React 19", "TypeScript", "TanStack Query", "Google Drive API", "Firestore"],
+      "tech": [
+        "Tauri 2",
+        "Rust",
+        "React 19",
+        "TypeScript",
+        "TanStack Query",
+        "Google Drive API",
+        "Firestore"
+      ],
       "ai": {
         "level": "cowrite",
         "split": {
@@ -103,7 +117,15 @@
         "Reading to writing and listening to speaking practice with on-device recordings",
         "Guest mode plus Google sign-in with cross-device progress sync"
       ],
-      "tech": ["React 19", "TypeScript", "PWA", "IndexedDB", "MediaRecorder", "Supabase", "Cloudflare Pages"],
+      "tech": [
+        "React 19",
+        "TypeScript",
+        "PWA",
+        "IndexedDB",
+        "MediaRecorder",
+        "Supabase",
+        "Cloudflare Pages"
+      ],
       "ai": {
         "level": "cowrite",
         "split": {
@@ -112,9 +134,7 @@
           "evidence": "18 merged pull requests with CI on every change"
         }
       },
-      "links": [
-        { "label": "Live app", "href": "https://road-to-english-c1.pages.dev/" }
-      ]
+      "links": [{ "label": "Live app", "href": "https://road-to-english-c1.pages.dev/" }]
     },
     {
       "id": "webgl-threejs-lab",
@@ -139,9 +159,7 @@
           "evidence": "17 lesson branches, each with its own CI build"
         }
       },
-      "links": [
-        { "label": "Theory app", "href": "https://webgl-threejs-lab.pages.dev" }
-      ]
+      "links": [{ "label": "Theory app", "href": "https://webgl-threejs-lab.pages.dev" }]
     },
     {
       "id": "admin-work",
@@ -157,7 +175,15 @@
         "Reports, reviews and approval as separate, auditable steps",
         "Permission tests run against real Postgres in WebAssembly (PGlite), no Docker needed"
       ],
-      "tech": ["React 19", "Supabase", "PostgreSQL RLS", "Edge Functions", "ECharts", "Vitest", "PGlite"],
+      "tech": [
+        "React 19",
+        "Supabase",
+        "PostgreSQL RLS",
+        "Edge Functions",
+        "ECharts",
+        "Vitest",
+        "PGlite"
+      ],
       "ai": {
         "level": "cowrite",
         "split": {

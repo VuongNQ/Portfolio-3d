@@ -19,24 +19,24 @@ Toàn bộ nội dung nằm trong [`content/timeline.json`](content/timeline.jso
 
 Mức dùng AI (`ai.level`) có 3 giá trị:
 
-| Giá trị | Nhãn | Khi nào dùng |
-| --- | --- | --- |
-| `none` | No AI | Không dùng AI |
-| `assist` | AI suggestions | Autocomplete, hỏi đáp |
+| Giá trị   | Nhãn               | Khi nào dùng                                                                                                    |
+| --------- | ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `none`    | No AI              | Không dùng AI                                                                                                   |
+| `assist`  | AI suggestions     | Autocomplete, hỏi đáp                                                                                           |
 | `cowrite` | Co-written with AI | Agent lên kế hoạch hoặc sinh code; bạn định hướng, review và merge. Bắt buộc có `ai.split` (Me / AI / Check it) |
 
 `visual` chọn cảnh 3D cho trạm: `org-tree`, `stream`, `gauge`, `handheld`, `stairs`, `triangle`. Hai trạm cùng `org-tree` được nối bằng một đường cong nét đứt.
 
 ## Cấu trúc
 
-| Đường dẫn | Vai trò |
-| --- | --- |
-| `vite.config.ts` | Plugin chèn HTML từ timeline vào `index.html` và kiểm tra dữ liệu |
-| `src/content/` | Kiểu dữ liệu, kiểm tra, render HTML |
-| `src/main.ts` | Bật lớp 3D khi có WebGL 2, sau sự kiện `load` và lúc trình duyệt rảnh |
-| `src/scroll.ts` | Chuyển vị trí cuộn thành tiến độ 0–1 trên ray, không chặn cuộn gốc |
-| `src/scene/` | Renderer, ray camera, cảnh từng trạm, cấu hình chất lượng |
-| `tests/` | Unit test chạy bằng `node --test` |
+| Đường dẫn        | Vai trò                                                               |
+| ---------------- | --------------------------------------------------------------------- |
+| `vite.config.ts` | Plugin chèn HTML từ timeline vào `index.html` và kiểm tra dữ liệu     |
+| `src/content/`   | Kiểu dữ liệu, kiểm tra, render HTML                                   |
+| `src/main.ts`    | Bật lớp 3D khi có WebGL 2, sau sự kiện `load` và lúc trình duyệt rảnh |
+| `src/scroll.ts`  | Chuyển vị trí cuộn thành tiến độ 0–1 trên ray, không chặn cuộn gốc    |
+| `src/scene/`     | Renderer, ray camera, cảnh từng trạm, cấu hình chất lượng             |
+| `tests/`         | Unit test chạy bằng `node --test`                                     |
 
 ## Hiệu năng và truy cập
 

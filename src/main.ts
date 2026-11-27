@@ -21,9 +21,12 @@ function supportsWebGL2(): boolean {
 }
 
 function markActiveStation() {
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) entry.target.classList.toggle('is-active', entry.isIntersecting);
-  }, { rootMargin: '-45% 0px -45% 0px' });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) entry.target.classList.toggle('is-active', entry.isIntersecting);
+    },
+    { rootMargin: '-45% 0px -45% 0px' },
+  );
   sections.forEach((s) => observer.observe(s));
 }
 
@@ -48,12 +51,13 @@ markActiveStation();
 if (canvas && supportsWebGL2() && connection?.saveData !== true) {
   root.classList.add('has-webgl');
   const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
-  const boot = () => idle(() => {
-    startScene().catch((error: unknown) => {
-      console.error(error);
-      root.classList.replace('has-webgl', 'no-webgl');
+  const boot = () =>
+    idle(() => {
+      startScene().catch((error: unknown) => {
+        console.error(error);
+        root.classList.replace('has-webgl', 'no-webgl');
+      });
     });
-  });
   if (document.readyState === 'complete') boot();
   else window.addEventListener('load', boot, { once: true });
 } else {

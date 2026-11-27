@@ -22,22 +22,28 @@ function orgTree(): StationVisual {
   const group = new THREE.Group();
   const node = new THREE.SphereGeometry(0.22, 24, 16);
   const levels = [[0], [-1.1, 1.1], [-1.65, -0.55, 0.55, 1.65]];
-  const points: THREE.Vector3[][] = levels.map((row, depth) => row.map((x) => new THREE.Vector3(x, 1.4 - depth * 1.1, 0)));
+  const points: THREE.Vector3[][] = levels.map((row, depth) =>
+    row.map((x) => new THREE.Vector3(x, 1.4 - depth * 1.1, 0)),
+  );
   const materials = [standard('#7dd3fc'), standard('#a5b4fc'), standard('#cbd5e1')];
-  points.forEach((row, depth) => row.forEach((p) => {
-    const mesh = new THREE.Mesh(node, materials[depth]);
-    mesh.position.copy(p);
-    group.add(mesh);
-  }));
+  points.forEach((row, depth) =>
+    row.forEach((p) => {
+      const mesh = new THREE.Mesh(node, materials[depth]);
+      mesh.position.copy(p);
+      group.add(mesh);
+    }),
+  );
   const edges: THREE.Vector3[] = [];
   points[1].forEach((p, i) => {
     edges.push(points[0][0], p);
     edges.push(p, points[2][i * 2], p, points[2][i * 2 + 1]);
   });
-  group.add(new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(edges),
-    new THREE.LineBasicMaterial({ color: COLORS.rail }),
-  ));
+  group.add(
+    new THREE.LineSegments(
+      new THREE.BufferGeometry().setFromPoints(edges),
+      new THREE.LineBasicMaterial({ color: COLORS.rail }),
+    ),
+  );
   return {
     object: group,
     update(time, focus) {
@@ -49,7 +55,11 @@ function orgTree(): StationVisual {
 /** Video segments streaming past, as HLS/DASH chunks: one instanced mesh. */
 function stream(): StationVisual {
   const count = 24;
-  const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(0.9, 0.5, 0.05), standard('#a5b4fc'), count);
+  const mesh = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(0.9, 0.5, 0.05),
+    standard('#a5b4fc'),
+    count,
+  );
   const dummy = new THREE.Object3D();
   return {
     object: mesh,
@@ -70,9 +80,15 @@ function stream(): StationVisual {
 /** A PageSpeed-style gauge and three passing Core Web Vitals bars. */
 function gauge(): StationVisual {
   const group = new THREE.Group();
-  const track = new THREE.Mesh(new THREE.TorusGeometry(1.3, 0.08, 12, 96, Math.PI * 1.5), standard('#334155'));
+  const track = new THREE.Mesh(
+    new THREE.TorusGeometry(1.3, 0.08, 12, 96, Math.PI * 1.5),
+    standard('#334155'),
+  );
   track.rotation.z = -Math.PI * 0.25;
-  const fill = new THREE.Mesh(new THREE.TorusGeometry(1.3, 0.1, 12, 96, Math.PI * 1.5 * 0.86), standard('#4ade80', { emissive: '#14532d' }));
+  const fill = new THREE.Mesh(
+    new THREE.TorusGeometry(1.3, 0.1, 12, 96, Math.PI * 1.5 * 0.86),
+    standard('#4ade80', { emissive: '#14532d' }),
+  );
   fill.rotation.z = Math.PI * 1.25 - Math.PI * 1.5 * 0.86;
   group.add(track, fill);
   const bars = [0, 1, 2].map((i) => {
@@ -98,12 +114,20 @@ function gauge(): StationVisual {
 function handheld({ particles }: BuildOptions): StationVisual {
   const group = new THREE.Group();
   const body = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.9, 0.18), standard('#1e293b'));
-  const screen = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.62), new THREE.MeshBasicMaterial({ color: '#7dd3fc' }));
+  const screen = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.1, 0.62),
+    new THREE.MeshBasicMaterial({ color: '#7dd3fc' }),
+  );
   screen.position.z = 0.091;
   body.position.y = -0.9;
   screen.position.y = -0.9;
   const cloud = new THREE.Group();
-  [[0, 0, 0.55], [-0.6, -0.1, 0.4], [0.6, -0.1, 0.42], [0.25, 0.25, 0.4]].forEach(([x, y, r]) => {
+  [
+    [0, 0, 0.55],
+    [-0.6, -0.1, 0.4],
+    [0.6, -0.1, 0.42],
+    [0.25, 0.25, 0.4],
+  ].forEach(([x, y, r]) => {
     const puff = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 14), standard('#e2e8f0'));
     puff.position.set(x, y, 0);
     cloud.add(puff);
@@ -115,7 +139,10 @@ function handheld({ particles }: BuildOptions): StationVisual {
   for (let i = 0; i < particles; i++) seeds[i] = Math.random();
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const points = new THREE.Points(geometry, new THREE.PointsMaterial({ color: COLORS.ai, size: 0.05, transparent: true, opacity: 0.9 }));
+  const points = new THREE.Points(
+    geometry,
+    new THREE.PointsMaterial({ color: COLORS.ai, size: 0.05, transparent: true, opacity: 0.9 }),
+  );
   group.add(body, screen, cloud, points);
   return {
     object: group,
@@ -145,7 +172,9 @@ function stairs(): StationVisual {
   });
   const uniforms = { uTime: { value: 0 }, uFocus: { value: 0 } };
   const wave = new THREE.LineLoop(
-    new THREE.BufferGeometry().setFromPoints(new THREE.Path().absarc(0, 0, 1, 0, Math.PI * 2).getSpacedPoints(256)),
+    new THREE.BufferGeometry().setFromPoints(
+      new THREE.Path().absarc(0, 0, 1, 0, Math.PI * 2).getSpacedPoints(256),
+    ),
     new THREE.ShaderMaterial({
       uniforms,
       vertexShader: /* glsl */ `
@@ -179,7 +208,11 @@ function stairs(): StationVisual {
 function triangle(): StationVisual {
   const group = new THREE.Group();
   const flat = new THREE.Mesh(
-    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-1, -0.8, 0), new THREE.Vector3(1, -0.8, 0), new THREE.Vector3(0, 0.95, 0)]),
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-1, -0.8, 0),
+      new THREE.Vector3(1, -0.8, 0),
+      new THREE.Vector3(0, 0.95, 0),
+    ]),
     new THREE.MeshBasicMaterial({ color: '#f87171', side: THREE.DoubleSide, transparent: true }),
   );
   const solid = new THREE.Mesh(
@@ -203,11 +236,17 @@ function triangle(): StationVisual {
 
 export function buildStation(visual: Visual, options: BuildOptions): StationVisual {
   switch (visual) {
-    case 'org-tree': return orgTree();
-    case 'stream': return stream();
-    case 'gauge': return gauge();
-    case 'handheld': return handheld(options);
-    case 'stairs': return stairs();
-    case 'triangle': return triangle();
+    case 'org-tree':
+      return orgTree();
+    case 'stream':
+      return stream();
+    case 'gauge':
+      return gauge();
+    case 'handheld':
+      return handheld(options);
+    case 'stairs':
+      return stairs();
+    case 'triangle':
+      return triangle();
   }
 }
