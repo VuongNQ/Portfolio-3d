@@ -9,7 +9,8 @@ Node.js 22.18+ hoặc 24.
 ```sh
 npm ci
 npm run dev      # server phát triển
-npm run check    # type check, build và unit test
+npm run format   # định dạng code bằng Prettier
+npm run check    # kiểm tra định dạng, type check, build và unit test
 npm run preview  # xem bản build
 ```
 
@@ -50,6 +51,6 @@ Ghi số đo thật vào [docs/benchmark.md](docs/benchmark.md).
 
 ## Triển khai
 
-GitHub Pages qua GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): mỗi lần push lên `main`, job `check` chạy type check, build, test và kiểm tra ngân sách bundle; chỉ khi pass thì job `deploy` mới đưa `dist/` lên Pages. Commit chỉ sửa `*.md` hoặc `docs/` không build lại. Bật một lần trong **Settings → Pages → Build and deployment → Source: GitHub Actions**. Địa chỉ: <https://vuongnq.github.io/Portfolio-3d/>.
+GitHub Pages qua GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): mỗi lần push lên `main`, job `check` chạy kiểm tra định dạng (Prettier), type check, build, test và kiểm tra ngân sách bundle; chỉ khi pass thì job `deploy` mới đưa `dist/` lên Pages. Commit chỉ sửa `*.md` hoặc `docs/` vẫn kiểm tra định dạng nhưng không build lại. Bật một lần trong **Settings → Pages → Build and deployment → Source: GitHub Actions**. Địa chỉ: <https://vuongnq.github.io/Portfolio-3d/>.
 
 Vite dùng `base: './'` (URL tương đối), nên cùng một bản build chạy được ở subpath `/Portfolio-3d/`, ở domain riêng, hay trên Cloudflare Pages.
